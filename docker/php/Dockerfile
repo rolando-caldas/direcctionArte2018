@@ -1,4 +1,4 @@
-FROM php:7.2.10-apache-stretch
+FROM rolandocaldas:7.2-apache
 
 ARG LOCAL_UID
 ARG LOCAL_GID
