@@ -24,7 +24,7 @@ services:
       - PMA_USER=${MYSQL_USER}
       - PMA_PASSWORD=${MYSQL_PASSWORD}
       - PMA_HOST=mysql
-    depend_on:
+    depends_on:
       - mysql
   php:
       build:
@@ -37,7 +37,7 @@ services:
           - ./php/virtualHost.conf:/etc/apache2/sites-enabled/000-a.conf
           - ${WORDPRESS_PATH}:/application
           - ./var:/application/var
-      depend_on:
+      depends_on:
       - mysql
       ports:
           - "80:80"
