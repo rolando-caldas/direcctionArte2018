@@ -1,0 +1,35 @@
+version: "3.5"
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "./database:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+    - "3306:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_USER=${MYSQL_USER}
+      - PMA_PASSWORD=${MYSQL_PASSWORD}
+      - PMA_HOST=mysql
+    depend_on:
+      - mysql
+  php:
+      build:
+        context: .
+        dockerfile: php/Dockerfile
+      volumes:
+          - ./php/virtualHost.conf:/etc/apache2/sites-enabled/000-a.conf
+          - ${WORDPRESS_PATH}:/application
+          - ./var:/application/var
+      depend_on:
+      - mysql
+      ports:
+          - "80:80"
